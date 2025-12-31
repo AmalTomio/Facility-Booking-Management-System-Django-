@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Book Facility{% endblock %}
+
+{% block content %}
+<h3>Book a Facility</h3>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">{{ form.facility_id.label }} {{ form.facility_id(class="form-select") }}</div>
+    <div class="mb-3">{{ form.booking_date.label }} {{ form.booking_date(class="form-control") }}</div>
+    <div class="mb-3">{{ form.start_time.label }} {{ form.start_time(class="form-control") }}</div>
+    <div class="mb-3">{{ form.end_time.label }} {{ form.end_time(class="form-control") }}</div>
+    <div class="mb-3">{{ form.purpose.label }} {{ form.purpose(class="form-control") }}</div>
+
+    <button class="btn btn-success">Submit Booking</button>
+</form>
+{% endblock %}

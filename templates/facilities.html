@@ -1,0 +1,226 @@
+{% extends "layouts/admin.html" %} {% block title %}Facilities{% endblock %}
+{%block styles %}
+<style>
+  .admin-facilities .facility-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .admin-facilities .facility-card {
+    display: block;
+    padding: 24px 28px;
+    border-radius: 16px;
+  }
+
+  .admin-facilities .add-btn {
+    background: #020617;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .admin-facilities .add-btn:hover {
+    background: #020617; /* NO lift, NO shadow */
+    transform: none;
+    box-shadow: none;
+  }
+
+  .admin-facilities .add-btn i {
+    font-size: 1rem;
+  }
+
+  /* HEADER */
+
+  .admin-facilities .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .admin-facilities .page-header h1 {
+    margin: 0;
+  }
+
+  .admin-facilities .page-header .page-subtitle {
+    margin-top: 4px;
+  }
+
+  .admin-facilities .facility-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .admin-facilities .facility-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .admin-facilities .facility-capacity {
+    margin-top: 6px;
+    font-size: 1rem;
+    color: #6b7280;
+  }
+
+  .admin-facilities .facility-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* STATUS */
+  .admin-facilities .status-pill {
+    background: #020617;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: lowercase;
+  }
+
+  .admin-facilities .status-pill.inactive {
+    background: #9ca3af;
+  }
+
+  /* ACTIONS */
+  .admin-facilities .facility-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .admin-facilities .btn-edit {
+    flex: 1;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .admin-facilities .btn-delete {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-facilities .btn-delete:hover {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .admin-facilities .facility-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="admin-facilities">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Facilities</h1>
+      <p class="page-subtitle">Manage meeting rooms and facilities</p>
+    </div>
+
+    <button
+      class="add-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#facilityAddModal"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Add Facility
+    </button>
+  </div>
+
+  {% if facilities %}
+  <div class="facility-grid">
+    {% for facility in facilities %}
+    <div class="facility-card">
+      {% if facility.image %}
+      <img
+        src="{{ url_for('static', filename='uploads/facilities/' ~ facility.image) }}"
+        alt="{{ facility.name }}"
+        class="facility-image"
+      />
+      {% endif %}
+
+      <div class="facility-header">
+        <div class="facility-title-row">
+          <span class="facility-name">{{ facility.name }}</span>
+          <span
+            class="status-pill {% if facility.status == 'inactive' %}inactive{% endif %}"
+          >
+            {{ facility.status }}
+          </span>
+        </div>
+
+        <div class="facility-capacity">
+          Capacity: {{ facility.capacity }} people
+        </div>
+      </div>
+
+      <div class="facility-actions">
+        <button
+          type="button"
+          class="btn-edit"
+          data-bs-toggle="modal"
+          data-bs-target="#facilityEditModal"
+          data-id="{{ facility.facility_id }}"
+          data-name="{{ facility.name }}"
+          data-capacity="{{ facility.capacity }}"
+          data-status="{{ facility.status }}"
+        >
+          <i class="bi bi-pencil"></i>
+          Edit
+        </button>
+
+        <form
+          method="POST"
+          action="{{ url_for('delete_facility', facility_id=facility.facility_id) }}"
+          onsubmit="return confirm('Delete {{ facility.name }} permanently?')"
+        >
+          <button type="submit" class="btn-delete">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card p-5 text-center">
+    <p class="text-muted">No facilities yet.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %} {% include "components/facility_add_modal.html" %} {% include
+"components/facility_edit_modal.html" %}

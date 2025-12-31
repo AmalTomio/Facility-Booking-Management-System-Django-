@@ -1,0 +1,120 @@
+{% extends "base.html" %} {% block styles %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/auth.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="auth-wrapper">
+  <!-- HEADER -->
+  <div class="auth-header">
+    <div class="auth-logo">
+      <i class="bi bi-building"></i>
+    </div>
+    <div class="auth-title">Facility Booking System</div>
+    <div class="auth-subtitle">Manage meeting rooms and facilities</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="auth-card">
+    <h5 class="fw-bold mb-1">Welcome</h5>
+    <p class="text-muted mb-3">Login or create a new account</p>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Login</button>
+      <button class="auth-tab" data-tab="register">Sign Up</button>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% for
+    category, message in messages %} {% if category.startswith('auth-') %}
+    <div class="alert alert-{{ category.replace('auth-', '') }}">
+      {{ message }}
+    </div>
+    {% endif %} {% endfor %} {% endwith %}
+
+    <!-- ================= LOGIN ================= -->
+    <div id="login-tab" class="tab-content active">
+      <form method="POST" action="{{ url_for('login') }}">
+        {{ login_form.csrf_token(id="login-csrf") }}
+
+        <div class="mb-3">
+          {{ login_form.email.label(class="form-label") }} {{
+          login_form.email(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          {{ login_form.password.label(class="form-label") }} {{
+          login_form.password(class="form-control") }}
+        </div>
+
+        <button class="btn-auth" type="submit">
+          <i class="bi bi-box-arrow-in-right me-1"></i>
+          Login
+        </button>
+      </form>
+    </div>
+
+    <!-- ================= REGISTER ================= -->
+    <div id="register-tab" class="tab-content">
+      <form method="POST" action="{{ url_for('register') }}">
+        {{ register_form.csrf_token(id="register-csrf") }}
+
+        <div class="mb-3">
+          {{ register_form.name.label(class="form-label") }} {{
+          register_form.name(class="form-control") }} {% if
+          register_form.name.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in register_form.name.errors %} {{ error }} {% endfor
+            %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ register_form.email.label(class="form-label") }} {{
+          register_form.email(class="form-control") }} {% if
+          register_form.email.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in register_form.email.errors %} {{ error }} {% endfor
+            %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ register_form.password.label(class="form-label") }} {{
+          register_form.password(class="form-control") }} {% if
+          register_form.password.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in register_form.password.errors %} {{ error }} {%
+            endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ register_form.confirm_password.label(class="form-label") }} {{
+          register_form.confirm_password(class="form-control") }} {% if
+          register_form.confirm_password.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in register_form.confirm_password.errors %} {{ error }}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          {{ register_form.role.label(class="form-label") }} {{
+          register_form.role(class="form-select") }}
+        </div>
+
+        <button class="btn-auth" type="submit">
+          <i class="bi bi-person-plus me-1"></i>
+          Create Account
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

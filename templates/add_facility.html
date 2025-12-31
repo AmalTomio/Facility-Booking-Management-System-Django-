@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Add Facility{% endblock %}
+
+{% block content %}
+<h3>Add New Facility</h3>
+
+<form method="POST" class="mt-4">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label }}
+        {{ form.name(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.capacity.label }}
+        {{ form.capacity(class="form-control") }}
+    </div>
+
+    <button class="btn btn-success">Save Facility</button>
+    <a href="{{ url_for('facilities') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

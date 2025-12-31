@@ -1,0 +1,40 @@
+<div class="modal fade" id="facilityAddModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Add New Facility</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        action="{{ url_for('create_facility') }}"
+      >
+        {{ add_form.hidden_tag() }}
+
+        <div class="mb-3">
+          <label>Facility Name</label>
+          {{ add_form.name(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          <label>Capacity</label>
+          {{ add_form.capacity(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          <label>Image</label>
+          <input type="file" name="image" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+          <label>Status</label>
+          {{ add_form.status(class="form-select") }}
+        </div>
+
+        <button class="btn btn-dark w-100">Create Facility</button>
+      </form>
+    </div>
+  </div>
+</div>

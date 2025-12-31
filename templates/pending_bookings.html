@@ -1,0 +1,56 @@
+{% extends "layouts/dashboard.html" %} {% block title %}Pending Bookings{%
+endblock %} {% block content %}
+<div class="page-header mb-4">
+  <h1>Pending Booking Requests</h1>
+  <p class="text-muted">Approve or reject staff booking requests</p>
+</div>
+
+{% if bookings %}
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Staff</th>
+          <th>Facility</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Purpose</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.user_name }}</td>
+          <td>{{ booking.facility_name }}</td>
+          <td>{{ booking.booking_date }}</td>
+          <td>{{ booking.start_time }} – {{ booking.end_time }}</td>
+          <td class="text-muted">{{ booking.purpose or "-" }}</td>
+          <td class="text-end">
+            <form
+              method="POST"
+              action="{{ url_for('approve_booking', booking_id=booking.booking_id) }}"
+              class="d-inline"
+            >
+              <button class="btn btn-success btn-sm">Approve</button>
+            </form>
+
+            <form
+              method="POST"
+              action="{{ url_for('reject_booking', booking_id=booking.booking_id) }}"
+              class="d-inline"
+              onsubmit="return confirmAction('Reject this booking?')"
+            >
+              <button class="btn btn-outline-danger btn-sm">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-info">No pending booking requests 🎉</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,110 @@
+<header class="top-header">
+  <div class="header-left">
+    <div class="app-logo">
+      <i class="bi bi-building"></i>
+    </div>
+
+    <div class="header-info">
+      <!-- TITLE -->
+      <h1 class="header-title">
+        {% if current_user.is_authenticated %} {{ current_user.role|capitalize
+        }} Dashboard {% else %} Dashboard {% endif %}
+      </h1>
+
+      <!-- SUBTITLE -->
+      <div class="header-subtitle">
+        {% if current_user.is_authenticated %} Welcome back, {{
+        current_user.name }} {% else %} Welcome {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <a href="{{ url_for('logout') }}" class="logout-btn">
+    <i class="bi bi-box-arrow-right"></i>
+    Logout
+  </a>
+</header>
+
+<style>
+  .top-header {
+    background: #ffffff;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .app-logo {
+    width: 48px;
+    height: 48px;
+    background: #3b82f6;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .header-subtitle {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+
+  .logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .logout-btn:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    color: #111827;
+  }
+
+  @media (max-width: 768px) {
+    .top-header {
+      padding: 1rem;
+    }
+
+    .header-title {
+      font-size: 1rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+    }
+  }
+</style>

@@ -1,0 +1,40 @@
+{% extends "layouts/dashboard.html" %} {% block title %}Facilities{% endblock %}
+{% block styles %}
+<style>
+  .facility-grid.staff-facilities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .facility-grid.staff-facilities .facility-card {
+    display: block; /* ❌ kill flex */
+    align-items: unset;
+    justify-content: unset;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .facility-grid.staff-facilities .facility-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 1024px) {
+    .facility-grid.staff-facilities {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="staff-facilities">
+  {% include "components/facilities.html" %} {% include
+  "components/booking_modal.html" %}
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form
+      method="POST"
+      action="{{ url_for('create_booking') }}"
+      class="modal-content"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title">Book <span id="modalFacilityName"></span></h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- CSRF token ONLY -->
+        {{ booking_form.csrf_token }} {{
+        booking_form.facility_id(id="modalFacilityId") }}
+
+        <p class="text-muted mb-3">
+          Capacity:
+          <strong><span id="modalFacilityCapacity"></span></strong> people
+        </p>
+
+        <div class="mb-3">
+          <label class="form-label">Purpose</label>
+          {{ booking_form.purpose(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Date</label>
+          {{ booking_form.booking_date(class="form-control") }}
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="form-label">Start Time</label>
+            {{ booking_form.start_time(class="form-control") }}
+          </div>
+          <div class="col">
+            <label class="form-label">End Time</label>
+            {{ booking_form.end_time(class="form-control") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </div>
+    </form>
+  </div>
+</div>

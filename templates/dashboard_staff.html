@@ -1,0 +1,172 @@
+{% extends "layouts/dashboard.html" %}
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block styles %}
+<style>
+  /* ===============================
+     FUTURISTIC STAFF DASHBOARD
+  =============================== */
+
+  .welcome-card {
+    background: radial-gradient(
+      1200px 400px at top left,
+      #1f2937,
+      #020617
+    );
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+  }
+
+  .welcome-card p {
+    opacity: 0.85;
+    margin-bottom: 0;
+  }
+
+  /* STATUS STRIP */
+  .status-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .status-tile {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .status-tile h3 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+
+  .status-tile span {
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  /* UPCOMING BOOKINGS */
+  .upcoming-card {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+  }
+
+  .upcoming-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .booking-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+  }
+
+  .booking-row:not(:last-child) {
+    border-bottom: 1px dashed #e5e7eb;
+  }
+
+  .booking-meta small {
+    color: #6b7280;
+  }
+
+  .status-pill {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .status-pill.approved {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-pill.pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- WELCOME -->
+<div class="welcome-card">
+  <h2 class="mb-1">Welcome back, {{ current_user.name }} ✨</h2>
+  <p>Your booking overview at a glance.</p>
+</div>
+
+<div class="row g-4">
+  <!-- MAIN -->
+  <div class="col-lg-8">
+
+    <!-- QUICK STATUS -->
+    <div class="status-strip">
+      <div class="status-tile">
+        <span>Total Bookings</span>
+        <h3>{{ stats.total }}</h3>
+      </div>
+
+      <div class="status-tile">
+        <span>Pending</span>
+        <h3>{{ stats.pending }}</h3>
+      </div>
+
+      <div class="status-tile">
+        <span>Approved</span>
+        <h3>{{ stats.approved }}</h3>
+      </div>
+    </div>
+
+    <!-- UPCOMING BOOKINGS -->
+    <div class="upcoming-card">
+      <div class="upcoming-header">
+        <h5 class="mb-0">Upcoming Bookings</h5>
+        <a href="{{ url_for('my_bookings') }}" class="btn btn-sm btn-outline-dark">
+          View all
+        </a>
+      </div>
+
+      {% if bookings %}
+        {% for booking in bookings %}
+        <div class="booking-row">
+          <div class="booking-meta">
+            <strong>{{ booking.facility_name }}</strong><br />
+            <small>
+              {{ booking.booking_date }}
+              · {{ booking.start_time }}–{{ booking.end_time }}
+            </small>
+          </div>
+          <span class="status-pill {{ booking.status }}">
+            {{ booking.status }}
+          </span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="booking-row">
+          <p class="text-muted mb-0">No upcoming bookings.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- GUIDELINES -->
+  <div class="col-lg-4">
+    {% include "components/guidelines.html" %}
+  </div>
+</div>
+
+{% endblock %}

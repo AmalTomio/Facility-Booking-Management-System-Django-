@@ -1,0 +1,86 @@
+<aside class="dashboard-sidebar">
+  <!-- NAVIGATION CARD -->
+  <div class="sidebar-card">
+    <h3 class="sidebar-title">Navigation</h3>
+
+    <nav class="sidebar-nav">
+      {% if current_user.is_admin() %}
+      <a
+        href="{{ url_for('admin_dashboard') }}"
+        class="sidebar-link {% if active_page == 'dashboard' %}active{% endif %}"
+      >
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        href="{{ url_for('facilities_list') }}"
+        class="sidebar-link {% if active_page == 'facilities' %}active{% endif %}"
+      >
+        <i class="bi bi-building"></i>
+        <span>Facilities</span>
+      </a>
+
+      <a
+        href="{{ url_for('pending_bookings') }}"
+        class="sidebar-link {% if active_page == 'bookings' %}active{% endif %}"
+      >
+        <i class="bi bi-calendar-check"></i>
+        <span>Bookings</span>
+      </a>
+
+      {% else %}
+      <!-- STAFF NAVIGATION -->
+      <a
+        href="{{ url_for('staff_dashboard') }}"
+        class="sidebar-link {% if active_page == 'dashboard' %}active{% endif %}"
+      >
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        href="{{ url_for('staff_facilities') }}"
+        class="sidebar-link {% if active_page == 'facilities' %}active{% endif %}"
+      >
+        <i class="bi bi-building"></i>
+        <span>Browse Facilities</span>
+      </a>
+
+      <a
+        href="{{ url_for('my_bookings') }}"
+        class="sidebar-link {% if active_page == 'bookings' %}active{% endif %}"
+      >
+        <i class="bi bi-calendar-event"></i>
+        <span>My Bookings</span>
+      </a>
+      {% endif %}
+    </nav>
+  </div>
+
+  <!-- STAFF STATS CARD -->
+  {% if not current_user.is_admin() %}
+  <div class="sidebar-card">
+    <h3 class="sidebar-title">My Stats</h3>
+
+   <div class="sidebar-card">
+  <h3 class="sidebar-title">My Stats</h3>
+
+  <div class="stats-list">
+    <div class="stats-row">
+      <span>Total</span>
+      <span class="stat-pill" id="stat-total">0</span>
+    </div>
+    <div class="stats-row">
+      <span>Pending</span>
+      <span class="stat-pill" id="stat-pending">0</span>
+    </div>
+    <div class="stats-row">
+      <span>Approved</span>
+      <span class="stat-pill dark" id="stat-approved">0</span>
+    </div>
+  </div>
+</div>
+
+  {% endif %}
+</aside>

@@ -1,0 +1,42 @@
+<div class="facilities-page-header mb-4">
+  <h2 class="page-title">Available Facilities</h2>
+  <p class="page-subtitle">Browse and book meeting rooms</p>
+</div>
+
+<div class="facility-grid staff-facilities">
+  {% for facility in facilities %}
+  <div class="facility-card staff-facility-card">
+    {% if facility.image %}
+    <img
+      src="{{ url_for('static', filename='uploads/facilities/' ~ facility.image) }}"
+      alt="{{ facility.name }}"
+      class="facility-image"
+    />
+    {% endif %}
+
+    <div class="facility-content">
+      <h3 class="facility-name">{{ facility.name }}</h3>
+
+      <p class="facility-capacity">
+        <i class="bi bi-people"></i>
+        Capacity: {{ facility.capacity }} people
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-dark w-100 mt-3"
+        data-bs-toggle="modal"
+        data-bs-target="#bookingModal"
+        data-facility-id="{{ facility.facility_id }}"
+        data-facility-name="{{ facility.name }}"
+        data-facility-capacity="{{ facility.capacity }}"
+      >
+        <i class="bi bi-plus-lg me-1"></i>
+        Book Now
+      </button>
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">No facilities available.</p>
+  {% endfor %}
+</div>
