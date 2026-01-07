@@ -1,3 +1,24 @@
+// ========================================================
+// AUTH LOGIN / REGISTER TAB SWITCH
+// ========================================================
+const authTabs = document.querySelectorAll(".auth-tab");
+const tabContents = document.querySelectorAll(".tab-content");
+
+authTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    // Remove active from all tabs
+    authTabs.forEach((t) => t.classList.remove("active"));
+    tabContents.forEach((c) => c.classList.remove("active"));
+
+    // Activate clicked tab
+    tab.classList.add("active");
+
+    // Show matching content
+    const target = tab.dataset.tab;
+    document.getElementById(`${target}-tab`).classList.add("active");
+  });
+});
+
 // ==========================================================
 // GLOBAL DOM READY
 // ==========================================================
